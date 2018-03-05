@@ -5,8 +5,6 @@ import com.odlare.api.model.User;
 import com.odlare.api.model.UserTenantRelation;
 import com.odlare.api.multitenant.TenantContext;
 import com.odlare.api.multitenant.TenantNameFetcher;
-import com.odlare.api.repository.UserRepository;
-import com.odlare.api.repository.UserTenantRelationRepository;
 import org.assertj.core.util.Sets;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
@@ -17,7 +15,6 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.Set;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -27,15 +24,10 @@ import java.util.concurrent.Future;
 public class LawUserDetailService implements UserDetailsService {
 
     private final TenantNameFetcher tenantResolver;
-    private final UserRepository userRepository;
-    private final UserTenantRelationRepository userTenantRelationRepository;
 
     @Autowired
-    public LawUserDetailService(TenantNameFetcher tenantResolver,
-                                UserRepository userRepository, UserTenantRelationRepository userTenantRelationRepository) {
+    public LawUserDetailService(TenantNameFetcher tenantResolver) {
         this.tenantResolver = tenantResolver;
-        this.userRepository = userRepository;
-        this.userTenantRelationRepository = userTenantRelationRepository;
     }
 
     @Override
@@ -56,9 +48,14 @@ public class LawUserDetailService implements UserDetailsService {
             throw new UsernameNotFoundException("Ocorreu um erro!");
         }
 
-        Optional<User> user = userRepository.findByUsername(username);
+        User user = new User();
+        user.setUsername(username);
+        user.setPassword("...");
 
-        return new SystemUser(user.orElseThrow(() -> new UsernameNotFoundException("Usuário inválido!")), getDefaultAuthorities());
+        SystemUser systemUser = new SystemUser(user, getDefaultAuthorities());
+        systemUser.setTenant(TenantContext.getCurrentTenant());
+
+        return systemUser;
     }
 
     private List<GrantedAuthority> getDefaultAuthorities() {
