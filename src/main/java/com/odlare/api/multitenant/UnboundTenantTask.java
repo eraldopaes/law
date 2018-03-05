@@ -6,10 +6,10 @@ import static com.odlare.api.multitenant.MultiTenantConstants.DEFAULT_TENANT_ID;
 
 public abstract class UnboundTenantTask<T> implements Callable<T> {
 
-    protected String username;
+    protected String email;
 
-    public void setUsername(String username) {
-        this.username = username;
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     @Override

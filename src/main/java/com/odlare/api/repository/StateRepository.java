@@ -1,9 +1,9 @@
 package com.odlare.api.repository;
 
-import com.odlare.api.model.Estimate;
+import com.odlare.api.model.State;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface EstimateRepository extends JpaRepository<Estimate, Long> {
+public interface StateRepository extends JpaRepository<State, Long> {
 }

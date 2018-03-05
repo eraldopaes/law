@@ -8,5 +8,5 @@ import java.util.Optional;
 
 @Repository
 public interface UserTenantRelationRepository extends JpaRepository<UserTenantRelation, Long> {
-    UserTenantRelation findByUsername(String name);
+    UserTenantRelation findByEmail(String email);
 }

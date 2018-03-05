@@ -20,6 +20,6 @@ public class TenantNameFetcher extends UnboundTenantTask<UserTenantRelation> {
 
     @Override
     protected UserTenantRelation callInternal() {
-        return userTenantRelationRepository.findByUsername(this.username);
+        return userTenantRelationRepository.findByEmail(this.email);
     }
 }

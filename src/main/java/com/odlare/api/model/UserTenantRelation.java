@@ -1,22 +1,25 @@
 package com.odlare.api.model;
 
 import javax.persistence.*;
+import java.io.Serializable;
 
 @Entity
 @Table(name = "tenants")
-public class UserTenantRelation {
+public class UserTenantRelation implements Serializable {
+
+    private static final long serialVersionUID = -598430872124617697L;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private String username;
+    private String email;
     private String tenant;
 
     public UserTenantRelation() {
     }
 
-    public UserTenantRelation(String username, String tenant) {
-        this.username = username;
+    public UserTenantRelation(String email, String tenant) {
+        this.email = email;
         this.tenant = tenant;
     }
 
@@ -28,12 +31,12 @@ public class UserTenantRelation {
         this.id = id;
     }
 
-    public String getUsername() {
-        return username;
+    public String getEmail() {
+        return email;
     }
 
-    public void setUsername(String username) {
-        this.username = username;
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     public String getTenant() {
@@ -48,7 +51,7 @@ public class UserTenantRelation {
     public String toString() {
         return "UserTenantRelation{" +
                 "id=" + id +
-                ", username='" + username + '\'' +
+                ", email='" + email + '\'' +
                 ", tenant='" + tenant + '\'' +
                 '}';
     }

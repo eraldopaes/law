@@ -31,10 +31,10 @@ public class LawUserDetailService implements UserDetailsService {
     }
 
     @Override
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+    public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
 
         try {
-            tenantResolver.setUsername(username);
+            tenantResolver.setEmail(email);
             ExecutorService es = Executors.newSingleThreadExecutor();
             Future<UserTenantRelation> utrFuture = es.submit(tenantResolver);
             UserTenantRelation utr = utrFuture.get();
@@ -49,7 +49,7 @@ public class LawUserDetailService implements UserDetailsService {
         }
 
         User user = new User();
-        user.setUsername(username);
+        user.setEmail(email);
         user.setPassword("...");
 
         SystemUser systemUser = new SystemUser(user, getDefaultAuthorities());

@@ -41,7 +41,7 @@ public class LawUserAutheticationProvider implements AuthenticationProvider {
     public Authentication authenticate(Authentication authentication) throws AuthenticationException {
 
         try {
-            tenantResolver.setUsername(authentication.getName());
+            tenantResolver.setEmail(authentication.getName());
             ExecutorService es = Executors.newSingleThreadExecutor();
             Future<UserTenantRelation> utrFuture = es.submit(tenantResolver);
             UserTenantRelation utr = utrFuture.get();
@@ -55,7 +55,7 @@ public class LawUserAutheticationProvider implements AuthenticationProvider {
             throw new UsernameNotFoundException("Ocorreu um erro!");
         }
 
-        Optional<User> user = userRepository.findByUsername(authentication.getName());
+        Optional<User> user = userRepository.findByEmail(authentication.getName());
 
         if (user.isPresent()) {
             SystemUser systemUser = new SystemUser(user.get(), getDefaultAuthorities());

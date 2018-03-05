@@ -12,9 +12,8 @@ public class SystemUser extends User {
     private com.odlare.api.model.User user;
     private String tenant;
 
-
     public SystemUser(com.odlare.api.model.User user, Collection<? extends GrantedAuthority> authorities) {
-        super(user.getUsername(), user.getPassword(), authorities);
+        super(user.getEmail(), user.getPassword(), authorities);
         this.tenant = TenantContext.getCurrentTenant();
     }
 
